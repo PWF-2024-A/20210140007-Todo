@@ -23,11 +23,11 @@ class UserController extends Controller
 
             ->withQueryString();
         }else{
-        @users = User::where('id', '!=', '1')
+        $users = User::where('id', '!=', '1')
         ->orderBy('name')
         ->paginate(10);
         }
-        return view ('user.index', compact(users));
+        return view ('user.index', compact($users));
     }
 
     public function makeadmin(User $user){

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Database\Factories\TodoFactory;
+use App\Models\Todo;
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
     public function index()
     {
-        $todos = TodoFactory::where('user_id', auth()->user()->id)
+        $todos = Todo::where('user_id', auth()->user()->id)
         ->orderBy('is_complete', 'asc')
         ->orderBy('created_at', 'desc')
         ->get();
@@ -24,11 +24,7 @@ class TodoController extends Controller
     {
         return view('todo.create');
     }
-    public function edit()
-    {
-        return view('todo.edit');
-    }
-    public function store(Request $request, TodoFactory $todo){
+    public function store(Request $request, Todo $todo){
 
         $request->validate([
             'title' => 'required|max:255',
