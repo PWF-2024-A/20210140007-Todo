@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7x1 sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+            < class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-xl text-gray-900 dark:text-gray-100">
                     <div class="flex items-center justify-between">
 
@@ -72,7 +72,31 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex space-x-3">
+                                        @if ($todo->is_complete == false)
+                                                <form action="{{ route('todo.complete', $todo) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="text-green-600 dark:text-green-400">
+                                                        Complete
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('todo.uncomplete', $todo) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="text-blue-600 dark:text-blue-400">
+                                                        Uncomplete
+                                                    </button>
+                                                </form>
+                                            @endif
                                         {{-- Action Here --}}
+                                        <form action="{{ route('todo.destroy', $todo) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 dark:text-red-400">
+                                                Delete
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -86,11 +110,18 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("Index Todo Page") }}
+                @if ($todosCompleted > 1)
+                <div class="p-6 text-xl text-gray-900 dark:text-gray-100">
+                    <form action="{{ route('todo.deleteallcompleted') }}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <x-primary-button>
+                            Delete All Completed Task
+                        </x-primary-button>
+                    </form>
                 </div>
+            @endif
+
             </div>
         </div>
     </div>
